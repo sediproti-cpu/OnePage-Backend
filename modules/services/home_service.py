@@ -1,5 +1,5 @@
-from sqlmodel import Session, select
-from database.datatables import Project, Ally, Achievement, Post, Student, InfoFellow
+from sqlmodel import Session, select, col
+from database.datatables import Project, Ally, Achievement, Post, Student, InfoFellow, Event
 from constants import FellowRank
 from fastapi import routing
 
@@ -99,6 +99,34 @@ def get_directors(session: Session):
       }
       for student, info in results
   ]
+
+def get_events(session: Session):
+  events = session.exec(
+      select(Event).order_by(col(Event.id).desc())
+  ).all()
+
+  return [
+    {
+      "id": event.id,
+      "title": event.title,
+      "event_date": event.event_date,
+      "url_event": event.url_event,
+    }
+    for event in events
+  ]
+
+def get_post_by_id(session: Session, post_id: int):
+  post = session.get(Post, post_id)
+  if not post:
+    return None
+  return {
+    "id": post.id,
+    "name": post.title,
+    "publishDate": post.publishDate,
+    "shortDescription": post.shortDescription,
+    "longDescription": post.longDescription,
+    "image_url": post.imageUrl,
+  }
 
 def build_home_data(session: Session):
   return {
