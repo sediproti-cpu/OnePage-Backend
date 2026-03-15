@@ -3,8 +3,7 @@ from typing import Annotated
 from sqlmodel import Session
 
 from database.datatables import get_session
-from modules.project_controller import get_projects
-from modules.services.home_service import build_home_data, get_achievements, get_allies, get_directors, get_events, get_post_by_id, get_posts
+from modules.services.home_service import build_home_data, get_achievements, get_allies, get_directors, get_events, get_post_by_id, get_posts, get_projects
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
@@ -18,6 +17,7 @@ async def get_home(session: SessionDep):
 @router.get("/noticias")
 async def get_noticias(session: SessionDep):
     return get_posts(session)
+
 @router.get("/noticias/{post_id}")
 async def get_noticia_by_id(session: SessionDep, post_id: int):
     return get_post_by_id(session, post_id)
