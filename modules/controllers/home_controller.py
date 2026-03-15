@@ -37,6 +37,7 @@ async def get_partners(session: SessionDep):
 @router.get("/reconocimientos")
 async def get_reconocimientos(session: SessionDep):
     return get_achievements(session)
+
 @router.get("/eventos")
 async def get_eventos(session: SessionDep):
     return get_events(session)

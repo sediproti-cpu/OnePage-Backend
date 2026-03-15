@@ -25,7 +25,9 @@ def get_projects(session: Session):
 
 def get_allies(session: Session):
   allies = session.exec(
-      select(Ally).order_by(Ally.id.desc())
+      select(Ally)
+      .where(Ally.is_active == True)
+      .order_by(Ally.id.desc())
   ).all()
 
   return [
